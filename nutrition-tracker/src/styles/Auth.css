@@ -1,0 +1,163 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f4f6f9;
+}
+
+.register-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #e5ecf5 50%, #ffffff 50%);
+}
+
+.register-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.register-logo {
+  width: 160px;
+  height: auto;
+  border-radius: 16px;
+}
+
+.register-form-container {
+  flex: 1;
+  background: #fff;
+  border-radius: 30px 30px 0 0;
+  padding: 30px 20px;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.register-form {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.register-form h2 {
+  text-align: center;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+.register-form p {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #555;
+  font-size: 14px;
+}
+
+.register-form input[type="text"],
+.register-form input[type="tel"],
+.register-form input[type="password"] {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 15px;
+  font-size: 15px;
+  background-color: #f8fafc;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.register-form input[type="email"] {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 15px;
+  font-size: 15px;
+  background-color: #f8fafc;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.register-form input:focus {
+  border-color: #1e40af;
+}
+
+.remember-me {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.remember-me input {
+  margin-right: 8px;
+}
+
+.register-form button {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-form button:hover {
+  background-color: #162f72;
+}
+
+.login-link {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+.login-link a {
+  color: #1e3a8a;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  .register-logo {
+    width: 120px;
+  }
+
+  .register-form-container {
+    padding: 20px 16px;
+  }
+
+  .register-form-input-box {
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 15px;
+    font-size: 15px;
+    background-color: #f8fafc;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .register-form button {
+    font-size: 15px;
+    padding: 12px;
+  }
+}
+
+.register-hero-img {
+  max-width: 180px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  padding: 20px 0;
+}
+
+@media (max-width: 768px) {
+  .register-hero-img {
+    max-width: 140px;
+    padding: 10px 0;
+  }
+}
