@@ -1,0 +1,557 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background: #f5f7fa;
+  color: #333;
+  overflow-x: hidden;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px;
+  background: #2c3e50;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  height: 60px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.logo-img {
+  height: 40px;
+  max-width: 200px;
+  object-fit: contain;
+}
+
+.hamburger {
+  display: none;
+  font-size: 24px;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.hamburger:hover {
+  color: #ecf0f1;
+}
+
+.topbar-nav {
+  display: flex;
+  align-items: center;
+}
+
+.logout-btn {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.logout-btn:hover {
+  background: #c0392b;
+}
+
+.sidebar {
+  width: 250px;
+  background: #34495e;
+  color: #fff;
+  position: fixed;
+  top: 60px;
+  bottom: 0;
+  padding-top: 20px;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+  z-index: 900;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  transform: translateX(-100%);
+}
+
+.sidebar.active {
+  transform: translateX(0);
+}
+
+.sidebar {
+  transform: translateY(0);
+}
+
+.nav-menu {
+  list-style: none;
+  margin-top: 20px;
+}
+
+.nav-menu li {
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu li:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-menu li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-menu li a span {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.dashboard-layout {
+  display: flex;
+}
+
+.dashboard-main {
+  margin-left: 250px;
+  margin-top: 60px;
+  width: calc(100% - 250px);
+  padding-top: 70px;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+
+.dashboard-content {
+  padding: 20px;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #2c3e50;
+  font-weight: 700;
+}
+
+.dashboard-container {
+  display: flex;
+  gap: 20px;
+}
+
+.food-log {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.food-log h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.browse-foods-btn {
+  background: #27ae60;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.browse-foods-btn:hover {
+  background: #219653;
+}
+
+.calorie-summary {
+  background: #34495e;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.calorie-summary p {
+  font-size: 14px;
+}
+
+.calorie-summary p strong {
+  font-weight: 600;
+}
+
+.food-log-section {
+  margin-top: 10px;
+}
+
+.food-log-btn {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background: #ecf0f1;
+  border: none;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.food-log-btn:hover {
+  background: #dcdde1;
+}
+
+.track-calendar {
+  width: 300px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.track-calendar h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.calendar-stats {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.calendar-stats p {
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+.react-calendar {
+  width: 100%;
+  border: none;
+  background: none;
+}
+
+.react-calendar__month-view__days__day {
+  padding: 10px;
+  text-align: center;
+}
+
+.react-calendar__tile--now {
+  background: #27ae60;
+  color: #fff;
+  border-radius: 50%;
+}
+
+.react-calendar__tile--active {
+  background: #3498db;
+  color: #fff;
+  border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+    width: 200px;
+    background-color: #2c3e50;
+    color: white;
+    height: 100vh;
+    padding-top: 60px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .dashboard-main {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .track-calendar {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    padding: 10px;
+    height: 50px;
+  }
+
+  .logo-img {
+    height: 30px;
+    max-width: 150px;
+  }
+
+  .sidebar {
+    width: 150px;
+    top: 50px;
+  }
+
+  .dashboard-main {
+    margin-left: 0;
+    padding-top: 60px;
+  }
+
+  .dashboard-content {
+    padding: 5px;
+  }
+
+  .food-log,
+  .track-calendar {
+    padding: 15px;
+  }
+
+  .food-log-btn {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 769px) {
+  .hamburger {
+    display: none;
+  }
+
+  .sidebar {
+    transform: translateX(0);
+  }
+
+  .dashboard-main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+  }
+}
+
+.food-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.food-entry input,
+.food-entry select,
+.food-entry button {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.food-log-item {
+  margin-bottom: 1rem;
+}
+
+.food-log-entry {
+  margin-top: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.food-log-entry input {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.food-log-entry button {
+  padding: 0.4rem;
+  background-color: #2d6cdf;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.food-log-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0.6rem 0;
+  position: relative;
+  font-size: 0.95rem;
+}
+
+.category-name {
+  flex: 1;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-right: 0.3rem;
+  color: green;
+}
+
+.icon-info {
+  font-size: 1rem;
+  color: #999;
+  margin-right: 0.4rem;
+}
+
+.category-value {
+  width: 32px;
+  text-align: right;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.food-log-entry {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #f5f7fa;
+  padding: 0.5rem;
+  display: flex;
+  gap: 0.4rem;
+  z-index: 5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-top: 0.2rem;
+}
+
+.food-log-entry input {
+  flex: 1;
+  padding: 0.4rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.food-log-entry button {
+  background: #2d6cdf;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.food-log-search {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.food-log-search input {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.food-log-search button {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.food-log-search button:hover {
+  background-color: #219653;
+}
+
+.food-log-row {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 8px;
+}
+
+.food-log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  background: #f8f8f8;
+  padding: 6px 8px;
+}
+
+.food-log-items {
+  padding-left: 12px;
+  margin-top: 5px;
+}
+
+.food-log-entry-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.food-name {
+  font-size: 14px;
+  color: #333;
+}
+
+.food-calories {
+  font-size: 14px;
+  color: green;
+}
+
+.delete-button {
+  margin-left: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: red;
+}
+
+.category-picker {
+  margin-top: 10px;
+  padding: 10px;
+  background: #f0f8ff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.category-buttons button {
+  margin: 4px;
+  padding: 6px 12px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
