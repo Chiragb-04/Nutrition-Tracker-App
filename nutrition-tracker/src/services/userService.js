@@ -1,5 +1,3 @@
-// userStorageService.js
-
 const USERS_KEY = "users";
 const SESSION_USER_KEY = "sessionUser";
 
