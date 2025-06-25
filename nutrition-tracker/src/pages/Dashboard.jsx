@@ -6,25 +6,45 @@ import Calendar from "react-calendar";
 import { fetchNutritionData } from "../services/nutritionService";
 import { saveFoodItems, loadFoodItems } from "../utils/foodLogStorage";
 import { logoutUser } from "../services/authService";
-import {
-  CATEGORIES,
-  CATEGORY_LIST,
-  DAILY_CALORIE_GOAL,
-} from "../constants/appConstants";
+import { getSessionUser, getUserGoals } from "../services/userService";
+import { CATEGORIES, CATEGORY_LIST } from "../constants/appConstants";
+import { defaultGoals } from "../pages/Goals";
+
 import "../styles/Dashboard.css";
+
+const formatDateKey = (date) =>
+  new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  ).toLocaleDateString("en-CA");
+
+const getStorageKey = (username, date) => `${username}_${formatDateKey(date)}`;
 
 const Dashboard = ({ setUser }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [foodLog, setFoodLog] = useState({});
   const [foodItems, setFoodItems] = useState([]);
+  const [foodLog, setFoodLog] = useState({});
   const [foodEntry, setFoodEntry] = useState("");
   const [searchResult, setSearchResult] = useState(null);
   const [showCategoryPicker, setShowCategoryPicker] = useState(false);
+  const [goals, setGoals] = useState(defaultGoals);
+  const [overLimit, setOverLimit] = useState(false);
+  const [goalType, setGoalType] = useState("daily");
 
   const navigate = useNavigate();
+  const username = getSessionUser();
 
-  const formatDateKey = (date) => date.toISOString().split("T")[0];
+  const loadFoodDataForDate = useCallback(
+    (date) => {
+      const key = getStorageKey(username, date);
+      const items = loadFoodItems(key);
+      setFoodItems(items);
+      setFoodLog(calculateCategoryTotals(items));
+    },
+    [username]
+  );
 
   const calculateCategoryTotals = (items) =>
     items.reduce((acc, item) => {
@@ -44,20 +64,32 @@ const Dashboard = ({ setUser }) => {
       { calories: 0, protein: 0, carbs: 0, fat: 0 }
     );
 
-  const loadFoodDataForDate = useCallback((date) => {
-    const key = formatDateKey(date);
-    const items = loadFoodItems(key);
-    setFoodItems(items);
-    setFoodLog(calculateCategoryTotals(items));
-  }, []);
-
   useEffect(() => {
     loadFoodDataForDate(selectedDate);
   }, [selectedDate, loadFoodDataForDate]);
 
+  useEffect(() => {
+    const userGoals = getUserGoals(username);
+    setGoals(userGoals);
+  }, [username]);
+
+  useEffect(() => {
+    if (!goals || !goals[goalType]) return;
+
+    const { calories, protein, carbs, fat } = calculateTotalMacros(foodItems);
+    const currentGoal = goals[goalType];
+
+    const limitExceeded =
+      calories > (currentGoal.calories || 0) ||
+      protein > (currentGoal.protein || 0) ||
+      carbs > (currentGoal.carbs || 0) ||
+      fat > (currentGoal.fat || 0);
+
+    setOverLimit(limitExceeded);
+  }, [foodItems, goals, goalType]);
+
   const handleSearchFood = async () => {
     if (!foodEntry.trim()) return;
-
     try {
       const food = await fetchNutritionData(foodEntry);
       setSearchResult({
@@ -81,11 +113,10 @@ const Dashboard = ({ setUser }) => {
       category,
       date: formatDateKey(selectedDate),
     };
-
     const updatedItems = [...foodItems, newItem];
     setFoodItems(updatedItems);
     setFoodLog(calculateCategoryTotals(updatedItems));
-    saveFoodItems(newItem.date, updatedItems);
+    saveFoodItems(getStorageKey(username, selectedDate), updatedItems);
     clearSearchInput();
   };
 
@@ -93,7 +124,7 @@ const Dashboard = ({ setUser }) => {
     const updatedItems = foodItems.filter((item) => item.id !== id);
     setFoodItems(updatedItems);
     setFoodLog(calculateCategoryTotals(updatedItems));
-    saveFoodItems(formatDateKey(selectedDate), updatedItems);
+    saveFoodItems(getStorageKey(username, selectedDate), updatedItems);
   };
 
   const clearSearchInput = () => {
@@ -110,18 +141,36 @@ const Dashboard = ({ setUser }) => {
     navigate("/");
   };
 
-  const { calories, protein, carbs, fat } = calculateTotalMacros(foodItems);
-  const caloriesBurned = foodLog.exercise || 0;
-  const caloriesRemaining = DAILY_CALORIE_GOAL - calories + caloriesBurned;
+  const totals = calculateTotalMacros(foodItems);
+
+  const currentGoal = goals?.[goalType] || {
+    calories: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+  };
 
   return (
     <div className="dashboard-layout">
       <Sidebar isOpen={isSidebarOpen} onToggle={toggleSidebar} />
       <div className="dashboard-main">
         <Topbar onToggleSidebar={toggleSidebar} onLogout={handleLogout} />
-
         <div className="dashboard-content">
           <h1>Dashboard</h1>
+
+          <div className="goal-type-selector">
+            <label>
+              Goal Type:&nbsp;
+              <select
+                value={goalType}
+                onChange={(e) => setGoalType(e.target.value)}
+              >
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </label>
+          </div>
 
           <div className="dashboard-container">
             <div className="food-log">
@@ -145,7 +194,7 @@ const Dashboard = ({ setUser }) => {
                   </p>
                   <p>Select category:</p>
                   <div className="category-buttons">
-                    {CATEGORIES.map((cat) => (
+                    {Object.values(CATEGORIES).map((cat) => (
                       <button
                         key={cat}
                         onClick={() => handleAddToCategory(cat)}
@@ -158,20 +207,21 @@ const Dashboard = ({ setUser }) => {
               )}
 
               <div className="calorie-summary">
+                <p>{selectedDate.toLocaleDateString("en-US")}</p>
                 <p>
-                  {selectedDate.toLocaleDateString("en-US", {
-                    month: "numeric",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                  <strong>{totals.calories} Cal Intake</strong> vs Goal:{" "}
+                  <strong>{currentGoal.calories} Cal</strong>
                 </p>
                 <p>
-                  <strong>{calories} Cal Intake</strong> - {caloriesBurned} Cal
-                  burned — <strong>{caloriesRemaining} Cal Remaining</strong>
+                  {totals.protein}g Protein / {currentGoal.protein}g |{" "}
+                  {totals.carbs}g Carbs / {currentGoal.carbs}g | {totals.fat}g
+                  Fat / {currentGoal.fat}g
                 </p>
-                <p>
-                  {protein}g Protein | {carbs}g Carbs | {fat}g Fat
-                </p>
+                {overLimit && (
+                  <div className="goal-warning">
+                    ⚠️ You've achieved one or more of your {goalType} goals!
+                  </div>
+                )}
               </div>
 
               <div className="food-log-section">

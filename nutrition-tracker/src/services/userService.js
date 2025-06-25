@@ -1,49 +1,25 @@
-const USERS_KEY = "users";
-const SESSION_USER_KEY = "sessionUser";
+import { USERS_KEY, SESSION_USER_KEY } from "../constants/storageKeys";
 
-/**
- * Fetch all users from localStorage.
- * @returns {Object} All registered users keyed by username.
- */
 export function getAllUsers() {
   return JSON.parse(localStorage.getItem(USERS_KEY)) || {};
 }
 
-/**
- * Save or update a single user by username.
- * @param {string} username - The unique username.
- * @param {Object} userData - User data object (e.g., email, password).
- */
+export function getUser(username) {
+  const users = getAllUsers();
+  return users[username] || null;
+}
+
 export function saveUser(username, userData) {
   const users = getAllUsers();
   users[username] = userData;
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
-/**
- * Get a specific user by username.
- * @param {string} username
- * @returns {Object|null} User data or null if not found.
- */
-export function getUser(username) {
-  const users = getAllUsers();
-  return users[username] || null;
-}
-
-/**
- * Persist the session user.
- * @param {string} username
- * @param {boolean} remember - If true, use localStorage; else, sessionStorage.
- */
 export function setSessionUser(username, remember) {
   const storage = remember ? localStorage : sessionStorage;
   storage.setItem(SESSION_USER_KEY, username);
 }
 
-/**
- * Get the current logged-in session user.
- * @returns {string|null} Username if found, else null.
- */
 export function getSessionUser() {
   return (
     localStorage.getItem(SESSION_USER_KEY) ||
@@ -51,10 +27,36 @@ export function getSessionUser() {
   );
 }
 
-/**
- * Clear the current session user from both storage types.
- */
 export function clearSessionUser() {
   localStorage.removeItem(SESSION_USER_KEY);
   sessionStorage.removeItem(SESSION_USER_KEY);
+}
+
+export function saveUserGoals(username, goals) {
+  const user = getUser(username);
+  if (!user) return;
+  user.goals = goals;
+  saveUser(username, user);
+}
+
+export function getUserGoals(username) {
+  const user = getUser(username);
+  return user?.goals || null;
+}
+
+export function addFoodLog(username, foodEntry) {
+  const user = getUser(username);
+  if (!user) return;
+  if (!user.foodLogs) user.foodLogs = [];
+  user.foodLogs.push({
+    ...foodEntry,
+    date: new Date().toISOString(),
+  });
+  saveUser(username, user);
+}
+
+export function getTodaysFoodLogs(username) {
+  const user = getUser(username);
+  const today = new Date().toISOString().split("T")[0];
+  return user?.foodLogs?.filter((log) => log.date.startsWith(today)) || [];
 }
