@@ -1,9 +1,9 @@
-export const saveFoodItems = (dateKey, items) => {
-  localStorage.setItem(`foodItems-${dateKey}`, JSON.stringify(items));
+export const saveFoodItems = (key, data) => {
+  localStorage.setItem(key, JSON.stringify(data));
 };
 
-export const loadFoodItems = (dateKey) => {
-  const data = localStorage.getItem(`foodItems-${dateKey}`);
+export const loadFoodItems = (key) => {
+  const data = localStorage.getItem(key);
   return data ? JSON.parse(data) : [];
 };
 

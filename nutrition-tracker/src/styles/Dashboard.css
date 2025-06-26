@@ -555,3 +555,33 @@ h1 {
   border-radius: 4px;
   cursor: pointer;
 }
+
+.goal-type-selector {
+  margin: 20px 0;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.goal-type-selector label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.goal-type-selector select {
+  padding: 6px 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border 0.2s ease-in-out;
+}
+
+.goal-type-selector select:focus {
+  border-color: #28a745;
+  outline: none;
+}
