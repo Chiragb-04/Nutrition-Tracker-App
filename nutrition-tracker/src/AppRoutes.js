@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import MainLayout from "./components/MainLayout";
 import { logoutUser } from "./services/authService";
+import FoodLog from "./pages/FoodLog";
 
 export default function AppRoutes({ user, setUser }) {
   const handleLogout = () => {
@@ -33,11 +34,15 @@ export default function AppRoutes({ user, setUser }) {
           path="dashboard"
           element={
             user ? (
-              <Dashboard user={user} setUser={setUser} />
+              <Dashboard setUser={setUser} mainlayout={true} />
             ) : (
               <Navigate to="/" />
             )
           }
+        />
+        <Route
+          path="food-log"
+          element={user ? <FoodLog /> : <Navigate to="/" />}
         />
         <Route
           path="set-goals"

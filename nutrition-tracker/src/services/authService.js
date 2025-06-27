@@ -1,10 +1,9 @@
 import { SESSION_USER_KEY, USER_DATA_KEY } from "../constants/storageKeys";
 
-
 export function loginUser(userData, remember = true) {
   const storage = remember ? localStorage : sessionStorage;
   storage.setItem(SESSION_USER_KEY, userData.username);
-  localStorage.setItem(USER_DATA_KEY, JSON.stringify(userData)); // always save data
+  localStorage.setItem(USER_DATA_KEY, JSON.stringify(userData));
 }
 
 export function logoutUser() {

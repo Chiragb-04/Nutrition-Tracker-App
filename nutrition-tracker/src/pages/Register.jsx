@@ -24,8 +24,23 @@ export default function Register() {
   const handleRegister = (e) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[6-9]\d{9}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
+
     if (!emailRegex.test(userData.email)) {
       alert("Please enter a valid email address.");
+      return;
+    }
+
+    if (!phoneRegex.test(userData.phone)) {
+      alert("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+
+    if (!passwordRegex.test(userData.password)) {
+      alert(
+        "Password must be at least 6 characters and include at least one number and one letter."
+      );
       return;
     }
 
@@ -63,7 +78,6 @@ export default function Register() {
             onChange={handleInputChange}
             required
           />
-
           <input
             type="text"
             name="username"
@@ -79,6 +93,8 @@ export default function Register() {
             value={userData.phone}
             onChange={handleInputChange}
             required
+            pattern="[6-9]{1}[0-9]{9}"
+            title="Enter a valid 10-digit mobile number starting with 6–9"
           />
           <input
             type="password"
@@ -87,6 +103,8 @@ export default function Register() {
             value={userData.password}
             onChange={handleInputChange}
             required
+            pattern="(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}"
+            title="At least 6 characters, one number, and one letter"
           />
 
           <button type="submit">Sign Up</button>

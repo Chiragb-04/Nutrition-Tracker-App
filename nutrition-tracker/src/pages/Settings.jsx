@@ -1,10 +1,18 @@
 import React from "react";
+import ProfileSection from "./ProfileSection";
+import ResetPasswordSection from "./ResetPasswordSection";
+import "../styles/Settings.css";
 
-export default function LogFood() {
+const Settings = () => {
   return (
-    <div style={{ textAlign: "center", marginTop: "4rem" }}>
-      <h2>Log Food Page</h2>
-      <p>This is where users will search and log their meals.</p>
+    <div className="settings-page">
+      <h1>Settings</h1>
+      <div className="settings-container">
+        <ProfileSection />
+        <ResetPasswordSection />
+      </div>
     </div>
   );
-}
+};
+
+export default Settings;
