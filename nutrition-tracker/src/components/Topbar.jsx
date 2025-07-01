@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../assets/appLogo.png";
-import "../styles/Dashboard.css";
+import "../styles/Topbar.css";
 
 const Topbar = ({ onToggleSidebar, onLogout }) => (
   <header className="topbar">
@@ -15,6 +15,8 @@ const Topbar = ({ onToggleSidebar, onLogout }) => (
     <div className="logo-container">
       <img src={logo} alt="App Logo" className="logo-img" />
     </div>
+
+    <h1 className="app-title">Nutrimate</h1>
 
     <nav className="topbar-nav">
       <button className="logout-btn" onClick={onLogout}>

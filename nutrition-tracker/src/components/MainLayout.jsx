@@ -8,7 +8,10 @@ const Layout = ({ onLogout }) => {
 
   return (
     <div className="app-container">
-      <Topbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} onLogout={onLogout} />
+      <Topbar
+        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        onLogout={onLogout}
+      />
       <div className="main-content">
         <Sidebar isOpen={sidebarOpen} />
         <div className="content">

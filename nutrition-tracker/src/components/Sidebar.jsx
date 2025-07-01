@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../styles/Dashboard.css";
+import "../styles/Sidebar.css";
 
 const Sidebar = ({ isOpen }) => {
   return (
@@ -8,12 +8,17 @@ const Sidebar = ({ isOpen }) => {
       <ul className="nav-menu">
         <li>
           <Link to="/dashboard">
-            <span>🏠</span> Dashboard
+            <span>📊</span> Dashboard
+          </Link>
+        </li>
+        <li>
+          <Link to="/food-log">
+            <span>🍽️</span> Food Log
           </Link>
         </li>
         <li>
           <Link to="/set-goals">
-            <span>🍽️</span> Set Goals
+            <span>📋</span> Set Goals
           </Link>
         </li>
         <li>
